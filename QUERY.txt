@@ -1,0 +1,44 @@
+﻿-- Creazione della tabella 'Privati'
+CREATE TABLE Privati (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    nome NVARCHAR(255) NOT NULL,
+    codice_fiscale NVARCHAR(16) NOT NULL  
+);
+
+-- Creazione della tabella 'Aziende'
+CREATE TABLE Aziende (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    nome NVARCHAR(255) NOT NULL,
+    partita_iva NVARCHAR(11) NOT NULL  
+);
+
+-- Creazione della tabella 'Clienti'
+CREATE TABLE Clienti (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    id_privato INT NULL,
+    id_azienda INT NULL,
+);
+
+-- Vincoli di chiave esterna 
+ALTER TABLE Clienti
+ADD CONSTRAINT FK_Clienti_Privati
+FOREIGN KEY (id_privato) REFERENCES Privati(id);
+
+ALTER TABLE Clienti
+ADD CONSTRAINT FK_Clienti_Aziende
+FOREIGN KEY (id_azienda) REFERENCES Aziende(id);
+
+-- Creazione della tabella 'Spedizioni'
+CREATE TABLE Spedizioni (
+    id_spedizione INT IDENTITY(1,1) PRIMARY KEY,
+    id_cliente INT NOT NULL,
+    data_spedizione DATE NOT NULL,
+    peso DECIMAL(10,1) NOT NULL,  
+    città_destinataria NVARCHAR(255) NOT NULL,
+    indirizzo NVARCHAR(255) NOT NULL,
+    destinatario NVARCHAR(255) NOT NULL,
+    costo DECIMAL(10,1) NOT NULL, 
+    data_consegna DATE NOT NULL,
+    FOREIGN KEY (id_cliente) REFERENCES Clienti(id)
+);
+
