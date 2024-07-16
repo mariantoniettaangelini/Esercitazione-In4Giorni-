@@ -42,3 +42,55 @@ CREATE TABLE Spedizioni (
     FOREIGN KEY (id_cliente) REFERENCES Clienti(id)
 );
 
+INSERT INTO [dbo].[Aziende] ([nome], [partita_iva])
+VALUES
+('Alpha Srl', '12345678901'),
+('Beta Spa', '23456789012'),
+('Azienda Gamma', '34567890123'),
+('Industria Delta', '45678901234'),
+('Omega Srls', '56789012345');
+
+INSERT INTO [dbo].[Privati] ([nome], [codice_fiscale])
+VALUES
+('Mario Rossi', 'RSSMRO75M01H501U'),
+('Luigi Bianchi', 'BNCLGU80A01F205X'),
+('Anna Verdi', 'VRDANN85D42L219K'),
+('Sara Neri', 'NRISRA90E55D612H'),
+('Paolo Gialli', 'GLLPLA95R19Z404D');
+
+INSERT INTO [dbo].[Clienti] ([id_privato], [id_azienda])
+VALUES
+(1, NULL),  -- Cliente privato
+(2, NULL),  -- Cliente privato
+(NULL, 1),  -- Cliente aziendale
+(NULL, 2),  -- Cliente aziendale
+(3, NULL);  -- Cliente privato
+
+INSERT INTO [dbo].[Spedizioni] 
+    ([id_cliente], [data_spedizione], [peso], [città_destinataria], [indirizzo], [destinatario], [costo], [data_consegna])
+VALUES
+(1, '2023-07-16', 5.0, 'Roma', 'Via Roma 1', 'Mario Rossi', 150.5, '2023-07-17'),
+(2, '2023-07-16', 12.0, 'Milano', 'Via Milano 2', 'Luigi Bianchi', 300.0, '2023-07-18'),
+(3, '2023-07-16', 7.5, 'Napoli', 'Via Napoli 3', 'Alpha Srl', 200.5, '2023-07-19'),
+(4, '2023-07-16', 8.0, 'Torino', 'Via Torino 4', 'Beta Spa', 220.0, '2023-07-20'),
+(5, '2023-07-16', 9.5, 'Bologna', 'Via Bologna 5', 'Anna Verdi', 250.0, '2023-07-21'),
+(5, '2023-07-22', 4.5, 'Genova', 'Via Genova 6', 'Sara Neri', 140.0, '2023-07-23'),
+(1, '2023-07-22', 11.0, 'Venezia', 'Via Venezia 7', 'Mario Rossi', 310.0, '2023-07-24'),
+(2, '2023-07-22', 6.7, 'Firenze', 'Via Firenze 8', 'Luigi Bianchi', 185.0, '2023-07-25'),
+(3, '2023-07-22', 8.3, 'Palermo', 'Via Palermo 9', 'Azienda Gamma', 250.0, '2023-07-26'),
+(4, '2023-07-22', 9.8, 'Catania', 'Via Catania 10', 'Industria Delta', 265.0, '2023-07-27');
+
+CREATE TABLE [dbo].[Users] (
+    [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,        -- Identificatore unico per l'utente
+    [Username] NVARCHAR(255) NOT NULL UNIQUE,           -- Nome utente, unico
+    [Password] NVARCHAR(255) NOT NULL                  -- Password, assicurati di usare hash sicuri
+);
+
+INSERT INTO [dbo].[Users] ([Username], [Password])
+VALUES
+('AliceSmith', 'password'),  -- Sostituisci con il vero hash
+('BobJohnson', 'password'),  -- Sostituisci con il vero hash
+('CharlieBrown', 'password'),  -- Sostituisci con il vero hash
+('DianaPrince', 'password'),  -- Sostituisci con il vero hash
+('EthanHunt', 'password');  -- Sostituisci con il vero hash
+

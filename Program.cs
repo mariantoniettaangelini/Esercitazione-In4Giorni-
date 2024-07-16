@@ -1,4 +1,6 @@
 using Esercitazione.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +8,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddScoped<IClientiService, ClientiService>()
     .AddControllersWithViews();
+
+// CONFIGURAZIONE DELL'AUTENTICAZIONE
+builder.Services
+    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(opt =>
+    {
+        // Pagina alla quale l'utente sara indirizzato se non è stato già riconosciuto
+        opt.LoginPath = "/Account/Login";
+    });
+// Fine configurazione
+
+// CONFIGURAZIONE SERVIZIO DI GESTIONE DELLE AUTENTICAZIONI
+builder.Services
+    .AddScoped<IAuthSvc, AuthSvc>();
 
 var app = builder.Build();
 
