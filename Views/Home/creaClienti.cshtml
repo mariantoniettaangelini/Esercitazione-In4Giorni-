@@ -1,0 +1,59 @@
+﻿@model Esercitazione.Models.Cliente
+
+@{
+    ViewBag.Title = "Crea Cliente";
+}
+
+<h2>Crea Cliente</h2>
+
+<form asp-action="creaClienti" method="post" class="form-horizontal">
+    <div class="form-group">
+        <label for="clientType" class="control-label">Tipo Cliente</label>
+        <select id="clientType" name="TipoCliente" class="form-control" asp-for="TipoCliente">
+            <option value="">Seleziona Tipo</option>
+            <option value="Privato">Privato</option>
+            <option value="Azienda">Azienda</option>
+        </select>
+    </div>
+
+    @if (Model.TipoCliente == "Privato")
+    {
+        <div id="privatoFields">
+            <div class="form-group">
+                <label asp-for="Privato.Nome" class="control-label">Nome Privato</label>
+                <input asp-for="Privato.Nome" class="form-control" />
+                <span asp-validation-for="Privato.Nome" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Privato.CodiceFiscale" class="control-label">Codice Fiscale</label>
+                <input asp-for="Privato.CodiceFiscale" class="form-control" />
+                <span asp-validation-for="Privato.CodiceFiscale" class="text-danger"></span>
+            </div>
+        </div>
+    }
+    else if (Model.TipoCliente == "Azienda")
+    {
+        <div id="aziendaFields">
+            <div class="form-group">
+                <label asp-for="Azienda.Nome" class="control-label">Nome Azienda</label>
+                <input asp-for="Azienda.Nome" class="form-control" />
+                <span asp-validation-for="Azienda.Nome" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Azienda.PartitaIVA" class="control-label">Partita IVA</label>
+                <input asp-for="Azienda.PartitaIVA" class="form-control" />
+                <span asp-validation-for="Azienda.PartitaIVA" class="text-danger"></span>
+            </div>
+        </div>
+    }
+
+    <div class="form-group">
+        <input type="submit" value="Aggiungi" class="btn btn-primary" />
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

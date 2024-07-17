@@ -1,12 +1,17 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 
-    var currentUser = (User.Identity?.IsAuthenticated ?? false) ? User.Identity.Name : "Anon";
-    var friendlyName = User.Claims.FirstOrDefault(c => c.Type == "FriendlyName")?.Value ?? currentUser;
+    var currentUser = (User.Identity?.IsAuthenticated ?? false) ? User.Identity.Name : null;
+    var friendlyName = currentUser != null ? User.Claims.FirstOrDefault(c => c.Type == "FriendlyName")?.Value ?? currentUser : string.Empty;
 }
 
 <div class="text-center">
-    <h1 class="display-4">Benvenuto @friendlyName</h1>
-
-
+    @if (!string.IsNullOrEmpty(friendlyName))
+    {
+        <h1 class="display-4">Benvenuto @friendlyName</h1>
+    }
+    else
+    {
+        <h1 class="display-4">Benvenuto</h1>
+    }
 </div>

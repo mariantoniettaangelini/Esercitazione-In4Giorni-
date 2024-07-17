@@ -1,8 +1,9 @@
 ﻿using Esercitazione.Models;
-using System.Data.Common;
-using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System.Data.Common;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using System;
 
 namespace Esercitazione.Services
 {
@@ -17,8 +18,8 @@ namespace Esercitazione.Services
             return new Cliente
             {
                 Id = reader.GetInt32(0),
-                IdPrivato = reader.GetInt32(1),
-                IdAzienda = reader.GetInt32(2),
+                IdPrivato = reader.IsDBNull(1) ? (int?)null : reader.GetInt32(1),
+                IdAzienda = reader.IsDBNull(2) ? (int?)null : reader.GetInt32(2),
                 Privato = reader.IsDBNull(3) ? null : new Privato
                 {
                     Nome = reader.GetString(3),
@@ -47,10 +48,10 @@ namespace Esercitazione.Services
                 LEFT JOIN Privati p ON c.id_privato = p.id 
                 LEFT JOIN Aziende a ON c.id_azienda = a.id";
 
-            using (var conn = GetConnection())
+            using (var conn = CreateConnection())
             {
                 conn.Open();
-                using (var cmd = GetCommand(query))
+                using (var cmd = GetCommand(query, conn))
                 {
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -81,10 +82,10 @@ namespace Esercitazione.Services
                 LEFT JOIN Aziende a ON c.id_azienda = a.id
                 WHERE c.id = @id";
 
-            using (var conn = GetConnection())
+            using (var conn = CreateConnection())
             {
                 conn.Open();
-                using (var cmd = GetCommand(query))
+                using (var cmd = GetCommand(query, conn))
                 {
                     cmd.Parameters.Add(new SqlParameter("@id", id));
                     using (var reader = cmd.ExecuteReader())
@@ -109,18 +110,25 @@ namespace Esercitazione.Services
                 VALUES (@IdPrivato, @IdAzienda);
                 SELECT SCOPE_IDENTITY();";
 
-            var cmd = GetCommand(query);
-            cmd.Parameters.Add(new SqlParameter("@IdPrivato", cliente.IdPrivato));
-            cmd.Parameters.Add(new SqlParameter("@IdAzienda", cliente.IdAzienda));
-            
-            using var conn = GetConnection();
-            conn.Open();
-            var result = cmd.ExecuteScalar();
+            using (var conn = CreateConnection())
+            {
+                conn.Open();
+                using (var cmd = GetCommand(query, conn))
+                {
+                    cmd.Parameters.Add(new SqlParameter("@IdPrivato", cliente.IdPrivato));
+                    cmd.Parameters.Add(new SqlParameter("@IdAzienda", cliente.IdAzienda));
 
-            if (result == null)
-                throw new Exception("Creazione non riuscita");
-      
-            cliente.Id = Convert.ToInt32(result);
+                    var result = cmd.ExecuteScalar();
+                    if (result != null)
+                    {
+                        cliente.Id = Convert.ToInt32(result);
+                    }
+                    else
+                    {
+                        throw new Exception("Creazione del cliente non riuscita.");
+                    }
+                }
+            }
         }
     }
 }

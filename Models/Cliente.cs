@@ -7,5 +7,6 @@
         public int? IdAzienda { get; set; }
         public Privato Privato { get; set; }
         public Azienda Azienda { get; set; }
+        public string TipoCliente { get; set; } // "Privato" o "Azienda"
     }
 }

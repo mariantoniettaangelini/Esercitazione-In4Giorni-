@@ -21,7 +21,9 @@ builder.Services
 
 // CONFIGURAZIONE SERVIZIO DI GESTIONE DELLE AUTENTICAZIONI
 builder.Services
+    .AddScoped<IClientiService, ClientiService>()
     .AddScoped<IAuthSvc, AuthSvc>();
+    
 
 var app = builder.Build();
 
@@ -38,6 +40,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

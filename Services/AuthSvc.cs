@@ -10,7 +10,7 @@ namespace Esercitazione.Services
         private const string LOGIN_COMMAND = "SELECT * FROM Users WHERE Username = @username AND Password = @password";
         public AuthSvc(IConfiguration config)
         {
-            connectionString = config.GetConnectionString("Dd")!;
+            connectionString = config.GetConnectionString("DbBW")!;
         }
 
         public ApplicationUser Login(string username, string password)

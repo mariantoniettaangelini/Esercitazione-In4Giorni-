@@ -5,19 +5,23 @@ namespace Esercitazione.Services
 {
     public class SqlServerServiceBase : ServiceBase
     {
-        private SqlConnection _connection;
-        public SqlServerServiceBase(IConfiguration config)
+        private readonly IConfiguration _configuration;
+
+        public SqlServerServiceBase(IConfiguration configuration)
         {
-            _connection = new SqlConnection(config.GetConnectionString("DbBW"));
-        }
-        protected override DbCommand GetCommand(string commandText)
-        {
-            return new SqlCommand(commandText, _connection);
+            _configuration = configuration;
         }
 
-        protected override DbConnection GetConnection()
+        protected override DbConnection CreateConnection()
         {
-            return _connection;
+            // Crea una nuova connessione ogni volta che serve
+            return new SqlConnection(_configuration.GetConnectionString("DbBW"));
+        }
+
+        protected override DbCommand GetCommand(string commandText, DbConnection connection)
+        {
+            // Assicura che il comando sia associato a una connessione aperta
+            return new SqlCommand(commandText, connection as SqlConnection);
         }
     }
 }

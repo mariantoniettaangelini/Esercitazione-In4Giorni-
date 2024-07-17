@@ -3,8 +3,8 @@
     public class Azienda
     {
         public int Id { get; set; }
-        public string Nome { get; set; }
-        public string PartitaIVA { get; set; }
+        public required string Nome { get; set; }
+        public required string PartitaIVA { get; set; }
         public Cliente Cliente { get; set; }
     }
 }

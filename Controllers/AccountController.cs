@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
+
 namespace Esercitazione.Controllers
 {
     public class AccountController : Controller
@@ -29,9 +30,10 @@ namespace Esercitazione.Controllers
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, u.Username),
-                    new Claim("FriendlyName", u.FriendlyName)
-                };
 
+                };
+                if (u.FriendlyName != null)
+                    claims.Add(new Claim("FriendlyName", u.FriendlyName));
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(identity));
@@ -49,5 +51,5 @@ namespace Esercitazione.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-    } 
+    }
 }

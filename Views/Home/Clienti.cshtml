@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Esercitazione.Models.Cliente>
+
+@{
+    ViewBag.Title = "Elenco Clienti";
+}
+
+<h2>Elenco Clienti</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <h3>Privati</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Codice Fiscale</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cliente in Model.Where(c => c.Privato != null))
+                {
+                    <tr>
+                        <td>@cliente.Id</td>
+                        <td>@cliente.Privato?.Nome</td>
+                        <td>@cliente.Privato?.CodiceFiscale</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <h3>Aziende</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome Azienda</th>
+                    <th>Partita IVA</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cliente in Model.Where(c => c.Azienda != null))
+                {
+                    <tr>
+                        <td>@cliente.Id</td>
+                        <td>@cliente.Azienda?.Nome</td>
+                        <td>@cliente.Azienda?.PartitaIVA</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-12">
+        <a asp-action="creaClienti" class="btn btn-primary">Aggiungi Cliente</a>
+    </div>
+</div>
