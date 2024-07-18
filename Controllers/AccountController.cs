@@ -30,13 +30,15 @@ namespace Esercitazione.Controllers
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, u.Username),
+                    new Claim(ClaimTypes.Role, u.Role)
+
 
                 };
                 if (u.FriendlyName != null)
                     claims.Add(new Claim("FriendlyName", u.FriendlyName));
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(identity));
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {

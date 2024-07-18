@@ -94,3 +94,8 @@ VALUES
 ('DianaPrince', 'password'),  -- Sostituisci con il vero hash
 ('EthanHunt', 'password');  -- Sostituisci con il vero hash
 
+ALTER TABLE [dbo].[Users]
+ADD Role NVARCHAR(50) NOT NULL DEFAULT 'Worker';
+
+ALTER TABLE [dbo].[Clienti]
+ADD Role NVARCHAR(50) NOT NULL DEFAULT 'Customer';

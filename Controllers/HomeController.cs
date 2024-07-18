@@ -10,11 +10,13 @@ namespace Esercitazione.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IClientiService _clientiService;
+        private readonly IShipmentService _shipmentService;
 
-        public HomeController(ILogger<HomeController> logger, IClientiService clientiService)
+        public HomeController(ILogger<HomeController> logger, IClientiService clientiService, IShipmentService shipmentService)
         {
             _logger = logger;
             _clientiService = clientiService;
+            _shipmentService = shipmentService;
         }
 
         public IActionResult Index()
@@ -35,7 +37,7 @@ namespace Esercitazione.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Logica per salvare il cliente nel database
+                // Salvare il cliente nel database
                 // usando model.TipoCliente per determinare se è un privato o un'azienda
                 if (model.TipoCliente == "Privato")
                 {
@@ -58,6 +60,13 @@ namespace Esercitazione.Controllers
             var clienti = _clientiService.GetAll().ToList();
             return View(clienti);
         }
+
+        public IActionResult Spedizioni()
+        {
+            var spedizioni = _shipmentService.GetAll().ToList();
+            return View(spedizioni);
+        }
+
 
         public IActionResult Privacy()
         {

@@ -22,7 +22,8 @@ builder.Services
 // CONFIGURAZIONE SERVIZIO DI GESTIONE DELLE AUTENTICAZIONI
 builder.Services
     .AddScoped<IClientiService, ClientiService>()
-    .AddScoped<IAuthSvc, AuthSvc>();
+    .AddScoped<IAuthSvc, AuthSvc>()
+    .AddScoped<IShipmentService, ShipService>();
     
 
 var app = builder.Build();

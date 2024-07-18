@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Esercitazione.Models.Spedizioni>
+
+@{
+    ViewData["Title"] = "Spedizioni";
+}
+
+<h1>Spedizioni</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID Spedizione</th>
+            <th>Data Spedizione</th>
+            <th>Peso</th>
+            <th>Città Destinataria</th>
+            <th>Indirizzo</th>
+            <th>Destinatario</th>
+            <th>Costo</th>
+            <th>Data Consegna</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.id_spedizione</td>
+                <td>@item.DataSpedizione.ToShortDateString()</td>
+                <td>@item.Peso</td>
+                <td>@item.CittaDestinataria</td>
+                <td>@item.Indirizzo</td>
+                <td>@item.Destinatario</td>
+                <td>@item.Costo</td>
+                <td>@item.DataConsegna.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
